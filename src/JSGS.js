@@ -5,6 +5,7 @@ export default class JSGS {
         this.autoUpdate = options.autoUpdate;
 
         this.os.sendEvent('boot', this).sendEvent('cartridgeMount', this);
+        this.running = true;
 
         if (this.autoUpdate) {
             this.updateLoop(() => {
@@ -18,15 +19,22 @@ export default class JSGS {
         this.then = Date.now();
     }
 
+    stop() {
+        this.running = false;
+    }
+
     updateLoop(fn, fps) {
         fn();
 
         let then = Date.now();
         fps = fps || 30;
         const interval = 1000 / fps;
+        let that = this;
 
         return (function loop(time) {
-            requestAnimationFrame(loop);
+            if(that.running) {
+                requestAnimationFrame(loop);
+            }
 
             const now = Date.now();
             const delta = now - then;

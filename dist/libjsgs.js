@@ -2633,6 +2633,7 @@ var JSGS = function () {
         this.autoUpdate = options.autoUpdate;
 
         this.os.sendEvent('boot', this).sendEvent('cartridgeMount', this);
+        this.running = true;
 
         if (this.autoUpdate) {
             this.updateLoop(function () {
@@ -2647,6 +2648,11 @@ var JSGS = function () {
     }
 
     _createClass(JSGS, [{
+        key: 'stop',
+        value: function stop() {
+            this.running = false;
+        }
+    }, {
         key: 'updateLoop',
         value: function updateLoop(fn, fps) {
             fn();
@@ -2654,9 +2660,12 @@ var JSGS = function () {
             var then = Date.now();
             fps = fps || 30;
             var interval = 1000 / fps;
+            var that = this;
 
             return function loop(time) {
-                requestAnimationFrame(loop);
+                if (that.running) {
+                    requestAnimationFrame(loop);
+                }
 
                 var now = Date.now();
                 var delta = now - then;
