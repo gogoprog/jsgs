@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>JSGS - Live Editor</title>
+  <style>
+    div {
+      display: inline-block;
+    }
+
+    canvas {
+      width: 512px;
+      height: 512px;
+    }
+
+    textarea {
+      font-size: 10px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="button" value="Run" onclick="run();" /><br/>
+  <textarea id="code" rows="40" cols="128">-- hello world
+-- by gogoprog
+
+t = 0
+
+function _update()
+  t = t + 1
+end
+
+function _draw()
+  cls()
+  print(t, 0, 0, 3)
+  print("Hello World!", 37, 70, t % 6 + 1)
+end
+  </textarea>
+  <div id="screen"></div>
+  <script src="../dist/libjsgs.js"></script>
+  <script src="editor.js"></script>
+</body>
+
+</html>
